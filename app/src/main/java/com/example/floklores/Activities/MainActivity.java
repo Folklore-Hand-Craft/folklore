@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Amplify
-        configureAmplify();
+//        configureAmplify();
 
 
         // Room

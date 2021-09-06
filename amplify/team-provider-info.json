@@ -10,6 +10,11 @@
       "StackName": "amplify-folklore-dev-161824",
       "StackId": "arn:aws:cloudformation:us-east-1:144483824470:stack/amplify-folklore-dev-161824/edc5f9a0-0f14-11ec-b4d3-0ef4281dfc4d",
       "AmplifyAppId": "dt8vnepdh23k7"
+    },
+    "categories": {
+      "auth": {
+        "folklore79a94737": {}
+      }
     }
   }
 }

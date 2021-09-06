@@ -13,6 +13,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Floklores">
         <activity
+            android:name=".Activities.VerificationActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.SignInActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.SignUpActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".Activities.Settings"
             android:exported="true" />
         <activity
@@ -26,13 +41,7 @@
             android:exported="true" />
         <activity
             android:name=".Activities.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
     </application>
 
 </manifest>
