@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-folklore-dev-161824-authRole",
+      "UnauthRoleArn": "arn:aws:iam::144483824470:role/amplify-folklore-dev-161824-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::144483824470:role/amplify-folklore-dev-161824-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-folklore-dev-161824-deployment",
+      "UnauthRoleName": "amplify-folklore-dev-161824-unauthRole",
+      "StackName": "amplify-folklore-dev-161824",
+      "StackId": "arn:aws:cloudformation:us-east-1:144483824470:stack/amplify-folklore-dev-161824/edc5f9a0-0f14-11ec-b4d3-0ef4281dfc4d",
+      "AmplifyAppId": "dt8vnepdh23k7"
+    }
+  }
+}

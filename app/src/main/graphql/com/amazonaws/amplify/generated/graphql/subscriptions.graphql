@@ -1,0 +1,118 @@
+# this is an auto generated file. This will be overwritten
+subscription OnCreateSection {
+  onCreateSection {
+    id
+    sectionName
+    products {
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateSection {
+  onUpdateSection {
+    id
+    sectionName
+    products {
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteSection {
+  onDeleteSection {
+    id
+    sectionName
+    products {
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+  }
+}
+subscription OnCreateProduct {
+  onCreateProduct {
+    id
+    sectionId
+    productTitle
+    productBody
+    productPrice
+    productContact
+    section {
+      id
+      sectionName
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateProduct {
+  onUpdateProduct {
+    id
+    sectionId
+    productTitle
+    productBody
+    productPrice
+    productContact
+    section {
+      id
+      sectionName
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteProduct {
+  onDeleteProduct {
+    id
+    sectionId
+    productTitle
+    productBody
+    productPrice
+    productContact
+    section {
+      id
+      sectionName
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+  }
+}

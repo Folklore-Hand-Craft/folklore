@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Floklores</string>
+    <string name="products">Products</string>
+    <string name="add_product">ADD Product</string>
+    <string name="section_products">SECTION PRODUCTS</string>
+    <string name="all_products">ALL Products</string>
+    <string name="set_your_username_in_settings">Set Your Username in Settings</string>
+    <string name="product_description">Product Description</string>
+    <string name="my_product">My Product</string>
+    <string name="price">Price</string>
+    <string name="contact">Contact</string>
 </resources>
