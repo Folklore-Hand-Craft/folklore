@@ -11,10 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:layout_marginBottom="10dp"
         android:text="@string/products"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintBottom_toTopOf="@+id/textViewTasks"
         app:layout_constraintHorizontal_bias="0.179"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -66,15 +64,13 @@
         android:layout_width="332dp"
         android:layout_height="450dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="40dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="20dp"
         android:background="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/buttonAllProducts"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTasks" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageViewSettings"
@@ -86,19 +82,72 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_background" />
 
+    <Spinner
+        android:id="@+id/spinnerSection1"
+        android:layout_width="221dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="40dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toTopOf="@+id/list"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewSettings"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMyProducts"
+        app:layout_constraintVertical_bias="0.596" />
+
     <TextView
-        android:id="@+id/textViewTasks"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="5dp"
-        android:text="@string/set_your_username_in_settings"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/list"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerSection1"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMyProducts"
+        app:layout_constraintVertical_bias="0.543" />
+
+    <Button
+        android:id="@+id/apply"
+        android:layout_width="77dp"
+        android:layout_height="39dp"
+        android:layout_marginEnd="16dp"
+        android:text="Button"
         app:layout_constraintBottom_toTopOf="@+id/list"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewMyProducts" />
+        app:layout_constraintStart_toEndOf="@+id/spinnerSection1"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewSettings" />
+
+
+    <!--    <TextView-->
+<!--        android:id="@+id/textViewTasks"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="40dp"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:layout_marginEnd="40dp"-->
+<!--        android:layout_marginBottom="5dp"-->
+<!--        android:text="@string/set_your_username_in_settings"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/list"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textViewMyProducts" />-->
+
+<!--    <Spinner-->
+<!--        android:id="@+id/spinnerSection"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="54dp"-->
+<!--        android:layout_marginStart="5dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_marginEnd="40dp"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:background="@android:drawable/btn_dropdown"-->
+<!--        android:spinnerMode="dropdown"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/imageViewSave"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="1.0"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/textViewTeam"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/editTextUsername"-->
+<!--        app:layout_constraintVertical_bias="0.397" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

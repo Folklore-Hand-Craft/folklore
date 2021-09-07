@@ -13,6 +13,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -21,6 +22,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.amplifyframework.AmplifyException;
@@ -44,7 +50,9 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -53,15 +61,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private static final String TAG = "MainActivity";
 
     private List<Product> products;
-    private List<ProductItem> productItems;
     private ProductAdapter adapter;
+    String[] sections = new String[]{"","Team A", "Team B", "Team C"};
+    private URL url =null;
+
 
     private ProductDao productDao;
 
     private Handler handler;
 
-//    location
-private GoogleMap googleMap;
+
+    //    location
+    private GoogleMap googleMap;
     private Location currentLocation;
     FusedLocationProviderClient fusedLocationClient;
     int PERMISSION_ID = 99;
@@ -73,31 +84,54 @@ private GoogleMap googleMap;
         setContentView(R.layout.activity_main);
         setTitle("Task Master");
 
-
         //        location
         askForPermissionToUseLocation();
         configureLocationServices();
         askForLocation();
-
 
         handler = new Handler(message -> {
             notifyDataSetChanged();
             return false;
         });
 
-        
+        //        SECTION SPINNER
+        Spinner sectionsList = findViewById(R.id.spinnerSection1);
+
+        ArrayAdapter<String> SectionsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sections);
+        sectionsList.setAdapter(SectionsAdapter);
+
+        findViewById(R.id.apply).setOnClickListener(view -> {
+            SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            SharedPreferences.Editor preferenceEditor2 = sharedPreferences2.edit();
+            Spinner sectionSpinner = (Spinner) findViewById(R.id.spinnerSection1);
+            String sectionName = sectionSpinner.getSelectedItem().toString();
+            preferenceEditor2.putString("sectionName", sectionName);
+            preferenceEditor2.apply();
+
+            Intent goToAddTaskActivity = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(goToAddTaskActivity);
+            finish();
+
+        });
+
+//        ImageView productImage = findViewById(R.id.product_image);
+
+        SharedPreferences sharedPreferences3 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String file = sharedPreferences3.getString("file","");
+
+        downloadFile(file);
 
         // Amplify
 //        configureAmplify();
 
 
         // Room
-        AppDatabase database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "product_List")
-                .allowMainThreadQueries().build();
-        productDao = database.productDao();
+//        AppDatabase database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "product_List")
+//                .allowMainThreadQueries().build();
+//        productDao = database.productDao();
 
 
-        // Go to add task activity
+        // ADD TASK BUTTON
 
         findViewById(R.id.buttonAddProductActivity).setOnClickListener(view -> {
             askForPermissionToUseLocation();
@@ -108,21 +142,16 @@ private GoogleMap googleMap;
             preferenceEditor.putString("location", addressString);
             preferenceEditor.apply();
             Intent goToAddTaskActivity = new Intent(MainActivity.this, AddProduct.class);
-//            goToAddTaskActivity.putExtra("location",addressString);
-
-
-
-
             startActivity(goToAddTaskActivity);
         });
 
 
 
-        // Go to settings activity
-        findViewById(R.id.imageViewSettings).setOnClickListener(view -> {
-            Intent goToSittingsActivity = new Intent(MainActivity.this, Settings.class);
-            startActivity(goToSittingsActivity);
-        });
+//         Go to settings activity
+//        findViewById(R.id.imageViewSettings).setOnClickListener(view -> {
+//            Intent goToSittingsActivity = new Intent(MainActivity.this, Settings.class);
+//            startActivity(goToSittingsActivity);
+//        });
 
         // Go to Team tasks activity
         findViewById(R.id.buttonSectionProducts).setOnClickListener(view -> {
@@ -136,6 +165,8 @@ private GoogleMap googleMap;
         saveTeamToApi("Team C");
 
     }
+
+
 
     private void listItemDeleted() {
         adapter.notifyDataSetChanged();
@@ -153,12 +184,13 @@ private GoogleMap googleMap;
     @Override
     protected void onResume() {
         super.onResume();
+
         //create sharedPreference
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String username = sharedPreferences.getString("username", "");
         String sectionName = sharedPreferences.getString("sectionName", "");
 
-        if (!username.equals("")) {
+        if (!sectionName.equals("")) {
             ((TextView) findViewById(R.id.textViewMyProducts)).setText(username + "'s Tasks");
         }
 
@@ -166,8 +198,15 @@ private GoogleMap googleMap;
         if (sectionName.equals("")) {
             getTasksDataFromAPI();
         } else {
+
             getTeamTasksFromAPI(sectionName);
         }
+//        if (sectionName.equals("")) {
+//            getTasksDataFromAPI();
+//        } else {
+//            ((TextView) findViewById(R.id.textViewMyProducts)).setText(sectionName + " Tasks");
+//            getTasksDataFromAPI(sectionName);
+//        }
 
         Log.i(TAG, "onResume: tasks " + products);
 
@@ -348,5 +387,17 @@ private GoogleMap googleMap;
         }
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, getMainLooper());
     }
-
+    private void downloadFile(String key) {
+        Amplify.Storage.downloadFile(
+                key,
+                new File(getApplicationContext().getFilesDir() + key),
+                result -> {
+                    Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName());
+                    ImageView image = findViewById(R.id.product_image);
+                    image.setImageBitmap(BitmapFactory.decodeFile(result.getFile().getPath()));
+                    image.setVisibility(View.VISIBLE);
+                },
+                error -> Log.e("MyAmplifyApp", "Download Failure", error)
+        );
+    }
 }
