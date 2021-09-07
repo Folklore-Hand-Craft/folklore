@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Location currentLocation;
     FusedLocationProviderClient fusedLocationClient;
     int PERMISSION_ID = 99;
-
+    String addressString;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,8 +99,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 try {
                     List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 10);
-
-                    Log.e("Location","Your Address is " + " " + addresses);
+                    addressString = addresses.get(0).getAddressLine(0);
+                    Log.e("Location","Your Address is " + " StringAddress" + addressString);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
