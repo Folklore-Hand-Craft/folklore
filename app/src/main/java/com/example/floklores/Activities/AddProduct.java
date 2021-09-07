@@ -7,10 +7,12 @@ import androidx.room.Room;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.FileUtils;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -92,6 +94,9 @@ public class AddProduct extends AppCompatActivity {
             String productPrice = ((EditText) findViewById(R.id.editTextProductPrice)).getText().toString();
             String productContact = ((EditText) findViewById(R.id.editTextProductContact)).getText().toString();
 
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            String location = sharedPreferences.getString("location", "");
+
 //            Spinner spinner = (Spinner) findViewById(R.id.spinner);
 //            String taskState = spinner.getSelectedItem().toString();
 
@@ -104,7 +109,6 @@ public class AddProduct extends AppCompatActivity {
 //            taskDao.addTask(newTask);
 
 
-            // todo: clean the following
 
             // get the Team from Database and it will update the teamId with the new id
 
@@ -115,7 +119,9 @@ public class AddProduct extends AppCompatActivity {
                     productBody,
                     productPrice,
                     productContact,
-                    new Section(getTeamId(sectionName), sectionName));
+                    new Section(getTeamId(sectionName), sectionName),
+                    location
+            );
 
         });
 
@@ -128,7 +134,7 @@ public class AddProduct extends AppCompatActivity {
         });
     }
 
-    public void addTaskToDynamoDB(String productTitle, String productBody, String productPrice,String productContact, Section section) {
+    public void addTaskToDynamoDB(String productTitle, String productBody, String productPrice,String productContact, Section section, String location) {
         Product product = Product.builder()
                 .productTitle(productTitle)
                 .productBody(productBody)
@@ -136,6 +142,7 @@ public class AddProduct extends AppCompatActivity {
                 .productContact(productContact)
                 .section(section)
                 .fileName(uploadedFileName +"."+ uploadedFileExtension.split("/")[1])
+                .location(location)
                 .build();
 
         Amplify.API.mutate(ModelMutation.create(product),

@@ -3,9 +3,11 @@ package com.example.floklores.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -31,6 +33,11 @@ public class Details extends AppCompatActivity {
         setContentView(R.layout.activity_details);
         setTitle("Details");
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String location = sharedPreferences.getString("location", "location");
+
+        ((TextView)findViewById(R.id.location)).setText(location);
+
         // handling the Data passed via the intent
         Intent intent = getIntent();
 
@@ -38,11 +45,13 @@ public class Details extends AppCompatActivity {
         String productBody = intent.getExtras().getString("productBody");
         String productContact = intent.getExtras().getString("productContact");
         String productPrice = intent.getExtras().getString("productPrice");
+//        String location = intent.getExtras().getString("location");
 
         ((TextView)findViewById(R.id.textViewDetailsProductTitle)).setText(productName);
         ((TextView)findViewById(R.id.productBody)).setText(productBody);
         ((TextView)findViewById(R.id.productContact)).setText(productContact);
         ((TextView)findViewById(R.id.productPrice)).setText(productPrice);
+
 
         String fileName = intent.getExtras().getString("productFile");
 

@@ -15,6 +15,7 @@ type Product
   productPrice: String!
   productContact: String!
   fileName: String
+  location: String
   section: Section! @connection(fields: ["sectionId"])
 }
 #type Team @model {

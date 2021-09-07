@@ -65,6 +65,7 @@ mutation CreateProduct(
     productPrice
     productContact
     fileName
+    location
     section {
       id
       sectionName
@@ -93,6 +94,7 @@ mutation UpdateProduct(
     productPrice
     productContact
     fileName
+    location
     section {
       id
       sectionName
@@ -121,6 +123,7 @@ mutation DeleteProduct(
     productPrice
     productContact
     fileName
+    location
     section {
       id
       sectionName

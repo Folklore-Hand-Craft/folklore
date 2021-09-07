@@ -53,6 +53,7 @@ subscription OnCreateProduct {
     productPrice
     productContact
     fileName
+    location
     section {
       id
       sectionName
@@ -78,6 +79,7 @@ subscription OnUpdateProduct {
     productPrice
     productContact
     fileName
+    location
     section {
       id
       sectionName
@@ -103,6 +105,7 @@ subscription OnDeleteProduct {
     productPrice
     productContact
     fileName
+    location
     section {
       id
       sectionName

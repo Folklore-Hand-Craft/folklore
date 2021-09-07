@@ -1,13 +1,22 @@
 package com.example.floklores.Activities;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -27,11 +36,20 @@ import com.example.floklores.Infrastructure.AppDatabase;
 import com.example.floklores.Infrastructure.ProductDao;
 import com.example.floklores.Models.ProductItem;
 import com.example.floklores.R;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final String TAG = "MainActivity";
 
     private List<Product> products;
@@ -42,16 +60,32 @@ public class MainActivity extends AppCompatActivity {
 
     private Handler handler;
 
+//    location
+private GoogleMap googleMap;
+    private Location currentLocation;
+    FusedLocationProviderClient fusedLocationClient;
+    int PERMISSION_ID = 99;
+    String addressString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("Task Master");
 
+
+        //        location
+        askForPermissionToUseLocation();
+        configureLocationServices();
+        askForLocation();
+
+
         handler = new Handler(message -> {
             notifyDataSetChanged();
             return false;
         });
+
+        
 
         // Amplify
 //        configureAmplify();
@@ -64,8 +98,21 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Go to add task activity
+
         findViewById(R.id.buttonAddProductActivity).setOnClickListener(view -> {
+            askForPermissionToUseLocation();
+            configureLocationServices();
+            askForLocation();
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            SharedPreferences.Editor preferenceEditor = sharedPreferences.edit();
+            preferenceEditor.putString("location", addressString);
+            preferenceEditor.apply();
             Intent goToAddTaskActivity = new Intent(MainActivity.this, AddProduct.class);
+//            goToAddTaskActivity.putExtra("location",addressString);
+
+
+
+
             startActivity(goToAddTaskActivity);
         });
 
@@ -95,11 +142,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * function to call the details Activity for specific task Name
-     *
-     * @param productName: productName
-     */
+
     public void showDetails(String productName) {
         Intent intent = new Intent(MainActivity.this, Details.class);
         intent.putExtra("productName", productName);
@@ -144,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
                 goToDetailsIntent.putExtra("productPrice", products.get(position).getProductPrice());
                 goToDetailsIntent.putExtra("productContact", products.get(position).getProductContact());
                 goToDetailsIntent.putExtra("productFile", products.get(position).getFileName());
+                goToDetailsIntent.putExtra("location", products.get(position).getLocation());
                 startActivity(goToDetailsIntent);
             }
 
@@ -252,4 +296,57 @@ public class MainActivity extends AppCompatActivity {
                 error -> Log.e(TAG, "onCreate: Failed to get Tasks from DynamoDB => " + error.toString())
         );
     }
+
+
+//    location
+
+    private void configureLocationServices() {
+        fusedLocationClient  = LocationServices.getFusedLocationProviderClient(this);
+
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void askForPermissionToUseLocation(){
+        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 2);
+    }
+
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        this.googleMap = googleMap;
+
+    }
+    @SuppressLint("MissingPermission")
+    public void askForLocation() {
+
+        LocationRequest locationRequest;
+        LocationCallback locationCallback;
+
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(1000);
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                currentLocation = locationResult.getLastLocation();
+                Log.i("Location", currentLocation.toString());
+
+                Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
+
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 10);
+                    addressString = addresses.get(0).getAddressLine(0);
+                    Log.e("Location","Your Address is " + " StringAddress" + addressString);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, getMainLooper());
+    }
+
 }

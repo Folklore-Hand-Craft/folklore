@@ -78,6 +78,7 @@ query SyncProducts(
       productPrice
       productContact
       fileName
+      location
       _version
       _deleted
       _lastChangedAt
@@ -97,6 +98,7 @@ query GetProduct($id: ID!) {
     productPrice
     productContact
     fileName
+    location
     section {
       id
       sectionName
@@ -127,6 +129,7 @@ query ListProducts(
       productPrice
       productContact
       fileName
+      location
       _version
       _deleted
       _lastChangedAt

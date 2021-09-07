@@ -28,6 +28,7 @@ public final class Product implements Model {
   public static final QueryField PRODUCT_PRICE = field("Product", "productPrice");
   public static final QueryField PRODUCT_CONTACT = field("Product", "productContact");
   public static final QueryField FILE_NAME = field("Product", "fileName");
+  public static final QueryField LOCATION = field("Product", "location");
   public static final QueryField SECTION = field("Product", "sectionId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String productTitle;
@@ -35,6 +36,7 @@ public final class Product implements Model {
   private final @ModelField(targetType="String", isRequired = true) String productPrice;
   private final @ModelField(targetType="String", isRequired = true) String productContact;
   private final @ModelField(targetType="String") String fileName;
+  private final @ModelField(targetType="String") String location;
   private final @ModelField(targetType="Section", isRequired = true) @BelongsTo(targetName = "sectionId", type = Section.class) Section section;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
@@ -62,6 +64,10 @@ public final class Product implements Model {
       return fileName;
   }
   
+  public String getLocation() {
+      return location;
+  }
+  
   public Section getSection() {
       return section;
   }
@@ -74,13 +80,14 @@ public final class Product implements Model {
       return updatedAt;
   }
   
-  private Product(String id, String productTitle, String productBody, String productPrice, String productContact, String fileName, Section section) {
+  private Product(String id, String productTitle, String productBody, String productPrice, String productContact, String fileName, String location, Section section) {
     this.id = id;
     this.productTitle = productTitle;
     this.productBody = productBody;
     this.productPrice = productPrice;
     this.productContact = productContact;
     this.fileName = fileName;
+    this.location = location;
     this.section = section;
   }
   
@@ -98,6 +105,7 @@ public final class Product implements Model {
               ObjectsCompat.equals(getProductPrice(), product.getProductPrice()) &&
               ObjectsCompat.equals(getProductContact(), product.getProductContact()) &&
               ObjectsCompat.equals(getFileName(), product.getFileName()) &&
+              ObjectsCompat.equals(getLocation(), product.getLocation()) &&
               ObjectsCompat.equals(getSection(), product.getSection()) &&
               ObjectsCompat.equals(getCreatedAt(), product.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), product.getUpdatedAt());
@@ -113,6 +121,7 @@ public final class Product implements Model {
       .append(getProductPrice())
       .append(getProductContact())
       .append(getFileName())
+      .append(getLocation())
       .append(getSection())
       .append(getCreatedAt())
       .append(getUpdatedAt())
@@ -130,6 +139,7 @@ public final class Product implements Model {
       .append("productPrice=" + String.valueOf(getProductPrice()) + ", ")
       .append("productContact=" + String.valueOf(getProductContact()) + ", ")
       .append("fileName=" + String.valueOf(getFileName()) + ", ")
+      .append("location=" + String.valueOf(getLocation()) + ", ")
       .append("section=" + String.valueOf(getSection()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
@@ -167,6 +177,7 @@ public final class Product implements Model {
       null,
       null,
       null,
+      null,
       null
     );
   }
@@ -178,6 +189,7 @@ public final class Product implements Model {
       productPrice,
       productContact,
       fileName,
+      location,
       section);
   }
   public interface ProductTitleStep {
@@ -209,6 +221,7 @@ public final class Product implements Model {
     Product build();
     BuildStep id(String id) throws IllegalArgumentException;
     BuildStep fileName(String fileName);
+    BuildStep location(String location);
   }
   
 
@@ -220,6 +233,7 @@ public final class Product implements Model {
     private String productContact;
     private Section section;
     private String fileName;
+    private String location;
     @Override
      public Product build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -231,6 +245,7 @@ public final class Product implements Model {
           productPrice,
           productContact,
           fileName,
+          location,
           section);
     }
     
@@ -275,6 +290,12 @@ public final class Product implements Model {
         return this;
     }
     
+    @Override
+     public BuildStep location(String location) {
+        this.location = location;
+        return this;
+    }
+    
     /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
@@ -287,14 +308,15 @@ public final class Product implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String productTitle, String productBody, String productPrice, String productContact, String fileName, Section section) {
+    private CopyOfBuilder(String id, String productTitle, String productBody, String productPrice, String productContact, String fileName, String location, Section section) {
       super.id(id);
       super.productTitle(productTitle)
         .productBody(productBody)
         .productPrice(productPrice)
         .productContact(productContact)
         .section(section)
-        .fileName(fileName);
+        .fileName(fileName)
+        .location(location);
     }
     
     @Override
@@ -325,6 +347,11 @@ public final class Product implements Model {
     @Override
      public CopyOfBuilder fileName(String fileName) {
       return (CopyOfBuilder) super.fileName(fileName);
+    }
+    
+    @Override
+     public CopyOfBuilder location(String location) {
+      return (CopyOfBuilder) super.location(location);
     }
   }
   
