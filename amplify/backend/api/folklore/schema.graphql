@@ -1,0 +1,37 @@
+type Section @model {
+  id: ID!
+  sectionName: String!
+  products: [Product] @connection(keyName: "productItem", fields: ["id"])
+}
+
+type Product
+@model
+@key(name: "productItem", fields: ["sectionId"])
+{
+  id: ID!
+  sectionId: ID!
+  productTitle: String!
+  productBody: String!
+  productPrice: String!
+  productContact: String!
+  fileName: String
+  location: String
+  section: Section! @connection(fields: ["sectionId"])
+}
+#type Team @model {
+#  id: ID!
+#  teamName: String!
+#  tasks: [Task] @connection(keyName: "taskItem", fields: ["id"])
+#}
+#
+#type Task
+#@model
+#@key(name: "taskItem", fields: ["teamId"])
+#{
+#  id: ID!
+#  teamId: ID!
+#  taskTitle: String!
+#  taskBody: String!
+#  taskState: String!
+#  team: Team! @connection(fields: ["teamId"])
+#}

@@ -1,0 +1,142 @@
+# this is an auto generated file. This will be overwritten
+mutation CreateSection(
+  $input: CreateSectionInput!
+  $condition: ModelSectionConditionInput
+) {
+  createSection(input: $input, condition: $condition) {
+    id
+    sectionName
+    products {
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+  }
+}
+mutation UpdateSection(
+  $input: UpdateSectionInput!
+  $condition: ModelSectionConditionInput
+) {
+  updateSection(input: $input, condition: $condition) {
+    id
+    sectionName
+    products {
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+  }
+}
+mutation DeleteSection(
+  $input: DeleteSectionInput!
+  $condition: ModelSectionConditionInput
+) {
+  deleteSection(input: $input, condition: $condition) {
+    id
+    sectionName
+    products {
+      nextToken
+      startedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+  }
+}
+mutation CreateProduct(
+  $input: CreateProductInput!
+  $condition: ModelProductConditionInput
+) {
+  createProduct(input: $input, condition: $condition) {
+    id
+    sectionId
+    productTitle
+    productBody
+    productPrice
+    productContact
+    fileName
+    location
+    section {
+      id
+      sectionName
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+  }
+}
+mutation UpdateProduct(
+  $input: UpdateProductInput!
+  $condition: ModelProductConditionInput
+) {
+  updateProduct(input: $input, condition: $condition) {
+    id
+    sectionId
+    productTitle
+    productBody
+    productPrice
+    productContact
+    fileName
+    location
+    section {
+      id
+      sectionName
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+  }
+}
+mutation DeleteProduct(
+  $input: DeleteProductInput!
+  $condition: ModelProductConditionInput
+) {
+  deleteProduct(input: $input, condition: $condition) {
+    id
+    sectionId
+    productTitle
+    productBody
+    productPrice
+    productContact
+    fileName
+    location
+    section {
+      id
+      sectionName
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+    _version
+    _deleted
+    _lastChangedAt
+    createdAt
+    updatedAt
+  }
+}
