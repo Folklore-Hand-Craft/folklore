@@ -1,6 +1,6 @@
 {
     "identityPoolName": "folklore79a94737_identitypool_79a94737",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "folklo79a94737",
     "userPoolName": "folklore79a94737_userpool_79a94737",
     "autoVerifiedAttributes": [

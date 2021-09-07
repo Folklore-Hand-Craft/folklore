@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 goToDetailsIntent.putExtra("productBody", products.get(position).getProductBody());
                 goToDetailsIntent.putExtra("productPrice", products.get(position).getProductPrice());
                 goToDetailsIntent.putExtra("productContact", products.get(position).getProductContact());
+                goToDetailsIntent.putExtra("productFile", products.get(position).getFileName());
                 startActivity(goToDetailsIntent);
             }
 

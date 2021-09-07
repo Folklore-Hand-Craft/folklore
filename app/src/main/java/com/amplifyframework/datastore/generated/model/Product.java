@@ -27,12 +27,14 @@ public final class Product implements Model {
   public static final QueryField PRODUCT_BODY = field("Product", "productBody");
   public static final QueryField PRODUCT_PRICE = field("Product", "productPrice");
   public static final QueryField PRODUCT_CONTACT = field("Product", "productContact");
+  public static final QueryField FILE_NAME = field("Product", "fileName");
   public static final QueryField SECTION = field("Product", "sectionId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String productTitle;
   private final @ModelField(targetType="String", isRequired = true) String productBody;
   private final @ModelField(targetType="String", isRequired = true) String productPrice;
   private final @ModelField(targetType="String", isRequired = true) String productContact;
+  private final @ModelField(targetType="String") String fileName;
   private final @ModelField(targetType="Section", isRequired = true) @BelongsTo(targetName = "sectionId", type = Section.class) Section section;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
@@ -56,6 +58,10 @@ public final class Product implements Model {
       return productContact;
   }
   
+  public String getFileName() {
+      return fileName;
+  }
+  
   public Section getSection() {
       return section;
   }
@@ -68,12 +74,13 @@ public final class Product implements Model {
       return updatedAt;
   }
   
-  private Product(String id, String productTitle, String productBody, String productPrice, String productContact, Section section) {
+  private Product(String id, String productTitle, String productBody, String productPrice, String productContact, String fileName, Section section) {
     this.id = id;
     this.productTitle = productTitle;
     this.productBody = productBody;
     this.productPrice = productPrice;
     this.productContact = productContact;
+    this.fileName = fileName;
     this.section = section;
   }
   
@@ -90,6 +97,7 @@ public final class Product implements Model {
               ObjectsCompat.equals(getProductBody(), product.getProductBody()) &&
               ObjectsCompat.equals(getProductPrice(), product.getProductPrice()) &&
               ObjectsCompat.equals(getProductContact(), product.getProductContact()) &&
+              ObjectsCompat.equals(getFileName(), product.getFileName()) &&
               ObjectsCompat.equals(getSection(), product.getSection()) &&
               ObjectsCompat.equals(getCreatedAt(), product.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), product.getUpdatedAt());
@@ -104,6 +112,7 @@ public final class Product implements Model {
       .append(getProductBody())
       .append(getProductPrice())
       .append(getProductContact())
+      .append(getFileName())
       .append(getSection())
       .append(getCreatedAt())
       .append(getUpdatedAt())
@@ -120,6 +129,7 @@ public final class Product implements Model {
       .append("productBody=" + String.valueOf(getProductBody()) + ", ")
       .append("productPrice=" + String.valueOf(getProductPrice()) + ", ")
       .append("productContact=" + String.valueOf(getProductContact()) + ", ")
+      .append("fileName=" + String.valueOf(getFileName()) + ", ")
       .append("section=" + String.valueOf(getSection()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
@@ -156,6 +166,7 @@ public final class Product implements Model {
       null,
       null,
       null,
+      null,
       null
     );
   }
@@ -166,6 +177,7 @@ public final class Product implements Model {
       productBody,
       productPrice,
       productContact,
+      fileName,
       section);
   }
   public interface ProductTitleStep {
@@ -196,6 +208,7 @@ public final class Product implements Model {
   public interface BuildStep {
     Product build();
     BuildStep id(String id) throws IllegalArgumentException;
+    BuildStep fileName(String fileName);
   }
   
 
@@ -206,6 +219,7 @@ public final class Product implements Model {
     private String productPrice;
     private String productContact;
     private Section section;
+    private String fileName;
     @Override
      public Product build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -216,6 +230,7 @@ public final class Product implements Model {
           productBody,
           productPrice,
           productContact,
+          fileName,
           section);
     }
     
@@ -254,6 +269,12 @@ public final class Product implements Model {
         return this;
     }
     
+    @Override
+     public BuildStep fileName(String fileName) {
+        this.fileName = fileName;
+        return this;
+    }
+    
     /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
@@ -266,13 +287,14 @@ public final class Product implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String productTitle, String productBody, String productPrice, String productContact, Section section) {
+    private CopyOfBuilder(String id, String productTitle, String productBody, String productPrice, String productContact, String fileName, Section section) {
       super.id(id);
       super.productTitle(productTitle)
         .productBody(productBody)
         .productPrice(productPrice)
         .productContact(productContact)
-        .section(section);
+        .section(section)
+        .fileName(fileName);
     }
     
     @Override
@@ -298,6 +320,11 @@ public final class Product implements Model {
     @Override
      public CopyOfBuilder section(Section section) {
       return (CopyOfBuilder) super.section(section);
+    }
+    
+    @Override
+     public CopyOfBuilder fileName(String fileName) {
+      return (CopyOfBuilder) super.fileName(fileName);
     }
   }
   

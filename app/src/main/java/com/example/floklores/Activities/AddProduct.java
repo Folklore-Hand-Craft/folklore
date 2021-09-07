@@ -1,12 +1,19 @@
 package com.example.floklores.Activities;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.FileUtils;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -21,7 +28,12 @@ import com.example.floklores.Infrastructure.AppDatabase;
 import com.example.floklores.Infrastructure.ProductDao;
 import com.example.floklores.R;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AddProduct extends AppCompatActivity {
@@ -33,6 +45,13 @@ public class AddProduct extends AppCompatActivity {
     private String sectionId = "";
 
     private final List<Section> sections = new ArrayList<>();
+
+    static String format = "dd-MM-yyyy";
+    @SuppressLint("SimpleDateFormat")
+    static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+    private static String uploadedFileName = simpleDateFormat.format(new Date());
+    private static String uploadedFileExtension = null;
+    private static File uploadFile = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +73,11 @@ public class AddProduct extends AppCompatActivity {
         String[] sections = new String[]{"Team A", "Team B", "Team C"};
         ArrayAdapter<String> SectionsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sections);
         sectionsList.setAdapter(SectionsAdapter);
+
+//        upload file
+
+        Button uploadFile = findViewById(R.id.upload_bt);
+        uploadFile.setOnClickListener(v1 -> getFileFromDevice());
 
 
         // Room
@@ -111,15 +135,61 @@ public class AddProduct extends AppCompatActivity {
                 .productPrice(productPrice)
                 .productContact(productContact)
                 .section(section)
+                .fileName(uploadedFileName +"."+ uploadedFileExtension.split("/")[1])
                 .build();
 
         Amplify.API.mutate(ModelMutation.create(product),
                 success -> Log.i(TAG, "Saved item: " + product.getProductTitle()),
                 error -> Log.e(TAG, "Could not save item to API", error));
 
+        Amplify.Storage.uploadFile(
+                uploadedFileName +"."+ uploadedFileExtension.split("/")[1],
+                uploadFile,
+                success -> {
+                    Log.i(TAG, "uploadFileToS3: succeeded " + success.getKey());
+                },
+                error -> {
+                    Log.e(TAG, "uploadFileToS3: failed " + error.toString());
+                }
+        );
+
         Toast toast = Toast.makeText(this, "submitted!", Toast.LENGTH_LONG);
         toast.show();
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 999 && resultCode == RESULT_OK) {
+            Uri uri = data.getData();
+            uploadedFileExtension = getContentResolver().getType(uri);
+
+            Log.i(TAG, "onActivityResult: gg is " + uploadedFileExtension);
+            Log.i(TAG, "onActivityResult: returned from file explorer");
+            Log.i(TAG, "onActivityResult: => " + data.getData());
+            Log.i(TAG, "onActivityResult:  data => " + data.getType());
+
+            uploadFile = new File(getApplicationContext().getFilesDir(), "uploadFile");
+
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(data.getData());
+                FileUtils.copy(inputStream, new FileOutputStream(uploadFile));
+            } catch (Exception exception) {
+                Log.e(TAG, "onActivityResult: file upload failed" + exception.toString());
+            }
+
+        }
+    }
+
+    private void getFileFromDevice() {
+        Intent upload = new Intent(Intent.ACTION_GET_CONTENT);
+        upload.setType("*/*");
+        upload = Intent.createChooser(upload, "Choose a File");
+        startActivityForResult(upload, 999); // deprecated
+    }
+
 
     private void getAllTeamsDataFromAPI() {
         Amplify.API.query(ModelQuery.list(Section.class),
