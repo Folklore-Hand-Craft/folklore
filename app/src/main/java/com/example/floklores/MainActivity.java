@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -25,6 +26,9 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.IOException;
 import java.util.List;
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Location currentLocation;
     FusedLocationProviderClient fusedLocationClient;
     int PERMISSION_ID = 99;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +59,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 startActivity(toAddItem);
             }
         });
+
+
     }
+
+
     private void configureLocationServices() {
         fusedLocationClient  = LocationServices.getFusedLocationProviderClient(this);
 
@@ -107,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onResume() {
         super.onResume();
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
 //        askForPermissionToUseLocation();
 //        configureLocationServices();
 //        askForLocation();

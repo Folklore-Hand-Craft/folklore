@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "321997210110",
+    "project_id": "folklore-bbadb",
+    "storage_bucket": "folklore-bbadb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:321997210110:android:d16d4a1e11a6419582c0af",
+        "android_client_info": {
+          "package_name": "com.example.floklores"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "321997210110-sr1tv9ucjmfaucepmc76mrg37res2ksv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUYpr6eVYqMgFjUFgYaMRUpYne5EbUxAw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "321997210110-sr1tv9ucjmfaucepmc76mrg37res2ksv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
