@@ -3,7 +3,7 @@ package com.example.floklores.Activities;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
+//import androidx.fRoom.Room;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -83,9 +83,9 @@ public class AddProduct extends AppCompatActivity {
 
 
         // Room
-        AppDatabase database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "product_List")
-                .allowMainThreadQueries().build();
-        productDao = database.productDao();
+//        AppDatabase database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "product_List")
+//                .allowMainThreadQueries().build();
+//        productDao = database.productDao();
 
         // add task button handler
         findViewById(R.id.buttonAddProduct).setOnClickListener(view -> {
@@ -122,6 +122,9 @@ public class AddProduct extends AppCompatActivity {
                     new Section(getTeamId(sectionName), sectionName),
                     location
             );
+
+            Intent goToMainActivity = new Intent(AddProduct.this, MainActivity.class);
+            startActivity(goToMainActivity);
 
         });
 

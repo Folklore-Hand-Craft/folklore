@@ -12,6 +12,7 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.amplifyframework.core.Amplify;
@@ -56,6 +57,14 @@ public class Details extends AppCompatActivity {
         String fileName = intent.getExtras().getString("productFile");
 
         ImageView imageView = findViewById(R.id.product_img);
+
+        SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor preferenceEditor2 = sharedPreferences2.edit();
+
+//        Spinner sectionSpinner = (Spinner) findViewById(R.id.spinnerSection1);
+//        ImageView image = imageView;
+        preferenceEditor2.putString("file",fileName);
+        preferenceEditor2.apply();
 
         handler = new Handler(Looper.getMainLooper(),
                 message -> {
