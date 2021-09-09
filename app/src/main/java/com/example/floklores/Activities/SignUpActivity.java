@@ -6,9 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
@@ -31,11 +30,10 @@ public class SignUpActivity extends AppCompatActivity {
 
         configureAmplify();
 
-        Button signUp = findViewById(R.id.btnlogin);
+        ImageView signUp = findViewById(R.id.btnlogin);
         EditText username = findViewById(R.id.eteusername);
         EditText email = findViewById(R.id.etemail);
         EditText password = findViewById(R.id.mypass);
-        TextView signIn = findViewById(R.id.signin);
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,14 +42,6 @@ public class SignUpActivity extends AppCompatActivity {
                         username.getText().toString(),
                         email.getText().toString(),
                         password.getText().toString());
-            }
-        });
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent signIn = new Intent(SignUpActivity.this, SignInActivity.class);
-                startActivity(signIn);
-
             }
         });
     }
@@ -73,6 +63,11 @@ public class SignUpActivity extends AppCompatActivity {
                 error -> {
                     Log.e(TAG, "signUp failed: " + error.toString());
                 });
+    }
+
+    public void logina(View view) {
+        Intent log = new Intent(SignUpActivity.this, SignInActivity.class);
+        startActivity(log);
     }
     private void configureAmplify() {
         // configure Amplify plugins

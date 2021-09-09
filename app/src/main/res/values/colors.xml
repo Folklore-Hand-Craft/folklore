@@ -11,4 +11,7 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="blue">#4D6BC6</color>
+    <color name="smock">#e8e8e8</color>
+
 </resources>

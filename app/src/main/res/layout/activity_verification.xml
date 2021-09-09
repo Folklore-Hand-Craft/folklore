@@ -4,29 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.VerificationActivity">
+    android:background="@color/colorWhite">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="257dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="112dp"
+        android:gravity="center"
+        android:text="verification"
+        android:textColor="@color/blue"
+        android:textSize="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/confirmationCode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="verification code" />
+    <EditText
+        android:id="@+id/confirmationCode"
+        android:layout_width="288dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="80dp"
 
-        <Button
-            android:id="@+id/verify"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/botton_shape"
-            android:text="Verify"
-            android:textColor="@color/white" />
-    </LinearLayout>
+        android:background="@drawable/lg"
+        android:hint="Enter Verification code here"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
+    <ImageView
+        android:id="@+id/verify"
+        android:layout_width="95dp"
+        android:layout_height="92dp"
+        android:layout_marginBottom="56dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/confirmationCode"
+        app:layout_constraintVertical_bias="0.391"
+        app:srcCompat="@drawable/ic_correct" />
 </androidx.constraintlayout.widget.ConstraintLayout>

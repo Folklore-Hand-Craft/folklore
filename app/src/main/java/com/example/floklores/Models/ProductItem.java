@@ -23,11 +23,16 @@ public class ProductItem {
     @ColumnInfo(name = "product_contact")
     private String productContact;
 
-    public ProductItem(String productTitle, String productBody, String productPrice, String productContact) {
+    @ColumnInfo(name = "product_file")
+    private String fileName;
+
+    public ProductItem(String productTitle, String productBody, String productPrice, String productContact, String fileName) {
         this.productTitle = productTitle;
         this.productBody = productBody;
         this.productPrice = productPrice;
         this.productContact = productContact;
+        this.fileName = fileName;
+
     }
 
     public long getId() {
@@ -68,5 +73,13 @@ public class ProductItem {
 
     public void setProductContact(String productContact) {
         this.productContact = productContact;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

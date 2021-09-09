@@ -20,32 +20,35 @@ import com.example.floklores.R;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Details extends AppCompatActivity {
 
-    private static final String TAG = "TaskDetail";
+    private static final String TAG = "ProductDetail";
     private URL url =null;
     private Handler handler;
+    private char [] fileChar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        setTitle("Details");
+        setTitle("Product Details");
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String location = sharedPreferences.getString("location", "location");
 
         ((TextView)findViewById(R.id.location)).setText(location);
 
-        // handling the Data passed via the intent
+        //HANDLING THE DATA PASSED VIA INTENT
         Intent intent = getIntent();
 
         String productName = intent.getExtras().getString("productTitle");
         String productBody = intent.getExtras().getString("productBody");
         String productContact = intent.getExtras().getString("productContact");
         String productPrice = intent.getExtras().getString("productPrice");
-//        String location = intent.getExtras().getString("location");
 
         ((TextView)findViewById(R.id.textViewDetailsProductTitle)).setText(productName);
         ((TextView)findViewById(R.id.productBody)).setText(productBody);
@@ -53,7 +56,47 @@ public class Details extends AppCompatActivity {
         ((TextView)findViewById(R.id.productPrice)).setText(productPrice);
 
 
+//-------------------------
+//        SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//        SharedPreferences.Editor preferenceEditor2 = sharedPreferences2.edit();
+//
         String fileName = intent.getExtras().getString("productFile");
+        List<Character> FileNameCharOnly = new ArrayList<>();
+        char ch[]=fileName.toCharArray();
+        String rev="";
+        for(int i=ch.length-1;i>=0;i--){
+            rev+=ch[i];
+        }
+
+        System.out.println("reeeeeeev1 ---> " + rev);
+
+        char ch2[]=rev.toCharArray();
+
+        for(int i=0; i<rev.length(); i++){
+
+            if(rev.charAt(i) != '/'){
+                FileNameCharOnly.add(rev.charAt(i));
+            }else if(rev.charAt(i) == '/'){
+                break;
+            }
+        }
+
+        System.out.println("reeeeeeev2 ---> "+ rev);
+
+        char ch3[]=rev.toCharArray();
+        String finalFileName="";
+        for(int i=FileNameCharOnly.size()-1;i>=0;i--){
+            finalFileName+= FileNameCharOnly.get(i);
+        }
+
+        System.out.println("finaaaaaaaaaaaal name ---> " + finalFileName);
+
+
+
+
+//        preferenceEditor2.putString("file",fileName);
+//        preferenceEditor2.apply();
+//--------------------------
 
         ImageView imageView = findViewById(R.id.product_img);
 
@@ -67,8 +110,9 @@ public class Details extends AppCompatActivity {
                             .into(imageView);
                     return true;
                 });
+        System.out.println("fillllllllllllllle naaaaaaaaaaaaaaame" + fileName);
 
-        getFileFromS3Storage(fileName);
+        getFileFromS3Storage(finalFileName);
 
         try {
             Thread.sleep(1000);
@@ -83,6 +127,8 @@ public class Details extends AppCompatActivity {
         link.setMovementMethod(LinkMovementMethod.getInstance());
 
     }
+
+    // METHODS
 
     private void getFileFromS3Storage(String key) {
         Amplify.Storage.downloadFile(
@@ -105,10 +151,9 @@ public class Details extends AppCompatActivity {
         );
 
 
-        //Go Home!
+        //GO HOME PAGE
         ImageView goHomeImage = findViewById(R.id.fromTaskDetailsActivityToHome);
         goHomeImage.setOnClickListener(v -> {
-            // back button pressed
             Intent goHome = new Intent(Details.this,MainActivity.class);
             startActivity(goHome);
         });

@@ -1,26 +1,23 @@
 package com.example.floklores.Activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.os.Build;
+
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.amplifyframework.AmplifyException;
@@ -32,52 +29,30 @@ import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.datastore.generated.model.Product;
 import com.amplifyframework.datastore.generated.model.Section;
 import com.example.floklores.Adapter.ProductAdapter;
-import com.example.floklores.Infrastructure.AppDatabase;
-import com.example.floklores.Infrastructure.ProductDao;
-import com.example.floklores.Models.ProductItem;
 import com.example.floklores.R;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 
-import java.io.IOException;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+public class MainActivity extends AppCompatActivity  {
     private static final String TAG = "MainActivity";
 
     private List<Product> products;
-    private List<ProductItem> productItems;
     private ProductAdapter adapter;
 
-    private ProductDao productDao;
-
     private Handler handler;
+    String[] sections = new String[]{"All Sections","Pottery", "Accessories", "Crochet", "Glass Art", "Others"};
 
-//    location
-private GoogleMap googleMap;
-    private Location currentLocation;
-    FusedLocationProviderClient fusedLocationClient;
-    int PERMISSION_ID = 99;
-    String addressString;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle("Task Master");
+        setTitle("Folklore");
 
-
-        //        location
-        askForPermissionToUseLocation();
-        configureLocationServices();
-        askForLocation();
 
 
         handler = new Handler(message -> {
@@ -85,55 +60,41 @@ private GoogleMap googleMap;
             return false;
         });
 
-        
 
-        // Amplify
-//        configureAmplify();
+        Spinner sectionsList = findViewById(R.id.spinnerSection1);
+
+        ArrayAdapter<String> SectionsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sections);
+        sectionsList.setAdapter(SectionsAdapter);
+
+        findViewById(R.id.apply).setOnClickListener(view -> {
+            SharedPreferences sharedPreferences2 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            SharedPreferences.Editor preferenceEditor2 = sharedPreferences2.edit();
+            Spinner sectionSpinner = (Spinner) findViewById(R.id.spinnerSection1);
+            String sectionName = sectionSpinner.getSelectedItem().toString();
+            preferenceEditor2.putString("sectionName", sectionName);
+            preferenceEditor2.apply();
+
+            Intent goToAddTaskActivity = new Intent(MainActivity.this, MainActivity.class);
+            startActivity(goToAddTaskActivity);
+            finish();
+
+        });
 
 
-        // Room
-        AppDatabase database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "product_List")
-                .allowMainThreadQueries().build();
-        productDao = database.productDao();
-
-
-        // Go to add task activity
+        // Go to add product activity
 
         findViewById(R.id.buttonAddProductActivity).setOnClickListener(view -> {
-            askForPermissionToUseLocation();
-            configureLocationServices();
-            askForLocation();
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-            SharedPreferences.Editor preferenceEditor = sharedPreferences.edit();
-            preferenceEditor.putString("location", addressString);
-            preferenceEditor.apply();
-            Intent goToAddTaskActivity = new Intent(MainActivity.this, AddProduct.class);
-//            goToAddTaskActivity.putExtra("location",addressString);
-
-
-
-
-            startActivity(goToAddTaskActivity);
+            Intent goToAddProductActivity = new Intent(MainActivity.this, AddProduct.class);
+            startActivity(goToAddProductActivity);
         });
 
-
-
-        // Go to settings activity
-        findViewById(R.id.imageViewSettings).setOnClickListener(view -> {
-            Intent goToSittingsActivity = new Intent(MainActivity.this, Settings.class);
-            startActivity(goToSittingsActivity);
-        });
-
-        // Go to Team tasks activity
-        findViewById(R.id.buttonSectionProducts).setOnClickListener(view -> {
-            Intent goTeamTasksActivity = new Intent(MainActivity.this, SectionProducts.class);
-            startActivity(goTeamTasksActivity);
-        });
 
         // save Teams to API
-        saveTeamToApi("Team A");
-        saveTeamToApi("Team B");
-        saveTeamToApi("Team C");
+        saveTeamToApi("Pottery");
+        saveTeamToApi("Accessories");
+        saveTeamToApi("Crochet");
+        saveTeamToApi("Glass Art");
+        saveTeamToApi("Others");
 
     }
 
@@ -158,12 +119,8 @@ private GoogleMap googleMap;
         String username = sharedPreferences.getString("username", "");
         String sectionName = sharedPreferences.getString("sectionName", "");
 
-        if (!username.equals("")) {
-            ((TextView) findViewById(R.id.textViewMyProducts)).setText(username + "'s Tasks");
-        }
-
         products = new ArrayList<>();
-        if (sectionName.equals("")) {
+        if (sectionName.equals("All Sections")) {
             getTasksDataFromAPI();
         } else {
             getTeamTasksFromAPI(sectionName);
@@ -171,14 +128,11 @@ private GoogleMap googleMap;
 
         Log.i(TAG, "onResume: tasks " + products);
 
-        // RecycleView
-//        tasks = taskDao.findAll();
-//        if (tasks == null) {
-//            tasks = new ArrayList<>();
-//        }
-
         RecyclerView taskRecyclerView = findViewById(R.id.list);
         adapter = new ProductAdapter(products, new ProductAdapter.OnTaskItemClickListener() {
+
+
+
             @Override
             public void onItemClicked(int position) {
                 Intent goToDetailsIntent = new Intent(getApplicationContext(), Details.class);
@@ -297,56 +251,17 @@ private GoogleMap googleMap;
         );
     }
 
-
-//    location
-
-    private void configureLocationServices() {
-        fusedLocationClient  = LocationServices.getFusedLocationProviderClient(this);
-
+    private void downloadFile(String key) {
+        Amplify.Storage.downloadFile(
+                key,
+                new File(getApplicationContext().getFilesDir() + key),
+                result -> {
+                    Log.i("MyAmplifyApp", "Successfully downloaded: " + result.getFile().getName());
+                    ImageView image = (ImageView) findViewById(R.id.product_image);
+                    image.setImageBitmap(BitmapFactory.decodeFile(result.getFile().getPath()));
+                    image.setVisibility(View.VISIBLE);
+                },
+                error -> Log.e("MyAmplifyApp", "Download Failure", error)
+        );
     }
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    public void askForPermissionToUseLocation(){
-        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 2);
-    }
-
-
-    @Override
-    public void onMapReady(@NonNull GoogleMap googleMap) {
-        this.googleMap = googleMap;
-
-    }
-    @SuppressLint("MissingPermission")
-    public void askForLocation() {
-
-        LocationRequest locationRequest;
-        LocationCallback locationCallback;
-
-        locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(1000);
-
-        locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                currentLocation = locationResult.getLastLocation();
-                Log.i("Location", currentLocation.toString());
-
-                Geocoder geocoder = new Geocoder(MainActivity.this, Locale.getDefault());
-
-                try {
-                    List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 10);
-                    addressString = addresses.get(0).getAddressLine(0);
-                    Log.e("Location","Your Address is " + " StringAddress" + addressString);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, getMainLooper());
-    }
-
 }

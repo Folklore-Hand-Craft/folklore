@@ -3,52 +3,239 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Activities.Details">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/fromTaskDetailsActivityToHome"
-        android:layout_width="61dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="341dp"
+        android:layout_height="451dp"
+        android:layout_marginBottom="120dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:layout_constraintHorizontal_bias="0.628"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/product_img"
+            android:layout_width="213dp"
+            android:layout_height="107dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="73dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="54dp"
+            android:layout_marginBottom="114dp"
+            android:src="@drawable/ic_launcher_foreground" />
+
+        <TextView
+            android:id="@+id/productBody"
+            android:layout_width="160dp"
+            android:layout_height="42dp"
+            android:layout_above="@+id/productContact"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="26dp"
+            android:layout_marginBottom="31dp"
+            android:text="Description "
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/productContact"
+            android:layout_width="160dp"
+            android:layout_height="45dp"
+            android:layout_above="@+id/location"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="27dp"
+            android:text="contact" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="161dp"
+            android:layout_height="43dp"
+            android:layout_above="@+id/productPrice"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="49dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="22dp"
+            android:text="Location" />
+
+        <TextView
+            android:id="@+id/productPrice"
+            android:layout_width="161dp"
+            android:layout_height="43dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="49dp"
+            android:layout_marginEnd="28dp"
+            android:layout_marginBottom="15dp"
+            android:text="Price" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="64dp"
+            android:layout_height="47dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="41dp"
+            android:layout_marginEnd="53dp"
+            android:layout_marginBottom="218dp"
+            app:srcCompat="@drawable/ic_delivery" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="64dp"
+            android:layout_height="47dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="31dp"
+            android:layout_marginTop="41dp"
+            android:layout_marginEnd="56dp"
+            android:layout_marginBottom="146dp"
+            android:layout_toStartOf="@+id/productContact"
+            app:srcCompat="@drawable/ic_smartphone" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="64dp"
+            android:layout_height="47dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="41dp"
+            android:layout_marginEnd="58dp"
+            android:layout_marginBottom="77dp"
+            android:layout_toStartOf="@+id/productContact"
+            app:srcCompat="@drawable/ic_pin" />
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="64dp"
+            android:layout_height="47dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="41dp"
+            android:layout_marginEnd="61dp"
+            android:layout_marginBottom="14dp"
+            android:layout_toStartOf="@+id/productContact"
+            app:srcCompat="@drawable/ic_price_tag" />
+
+        <TextView
+            android:id="@+id/product_link"
+            android:layout_width="110dp"
+
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="217dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="290dp"
+            android:text="Download Image"
+            android:textColor="@color/blue" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/textViewDetailsProductTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="Task Title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:layout_width="214dp"
+        android:layout_height="74dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="Product Title"
+        android:textColor="@color/blue"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.553"
+        app:layout_constraintStart_toStartOf="parent" />
 
-
-    <TextView
-        android:id="@+id/productContact"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="112dp"
-        android:layout_marginEnd="40dp"
-        android:text="Task State  "
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+    <ImageView
+        android:id="@+id/fromTaskDetailsActivityToHome"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewDetailsProductTitle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.954"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewDetailsProductTitle" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_homepage" />
 
-    <!--    <TextView-->
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    tools:context=".Activities.Details">-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/fromTaskDetailsActivityToHome"-->
+<!--        android:layout_width="61dp"-->
+<!--        android:layout_height="53dp"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:layout_marginEnd="20dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:srcCompat="@drawable/ic_launcher_background" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/textViewDetailsProductTitle"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="50dp"-->
+<!--        android:text="Task Title"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Display1"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+
+<!--    <TextView-->
 <!--        android:id="@+id/productContact"-->
 <!--        android:layout_width="0dp"-->
 <!--        android:layout_height="wrap_content"-->
 <!--        android:layout_marginStart="40dp"-->
-<!--        android:layout_marginTop="44dp"-->
+<!--        android:layout_marginTop="112dp"-->
 <!--        android:layout_marginEnd="40dp"-->
+<!--        android:text="Task State  "-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textViewDetailsProductTitle" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/productBody"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="40dp"-->
+<!--        android:layout_marginTop="196dp"-->
+<!--        android:layout_marginEnd="40dp"-->
+<!--        android:text="Task Body  "-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/productContact" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/productPrice"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="40dp"-->
+<!--        android:layout_marginEnd="40dp"-->
+<!--        android:layout_marginBottom="376dp"-->
 <!--        android:text="Task Body  "-->
 <!--        android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
 <!--        app:layout_constraintBottom_toBottomOf="parent"-->
@@ -56,66 +243,36 @@
 <!--        app:layout_constraintHorizontal_bias="0.0"-->
 <!--        app:layout_constraintStart_toStartOf="parent"-->
 <!--        app:layout_constraintTop_toBottomOf="@+id/productBody"-->
-<!--        app:layout_constraintVertical_bias="0.0" />-->
+<!--        app:layout_constraintVertical_bias="1.0" />-->
 
-    <TextView
-        android:id="@+id/productBody"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="196dp"
-        android:layout_marginEnd="40dp"
-        android:text="Task Body  "
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/productContact" />
+<!--    <ImageView-->
+<!--        android:id="@+id/product_img"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textView"-->
+<!--        tools:srcCompat="@tools:sample/avatars" />-->
 
-    <TextView
-        android:id="@+id/productPrice"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="376dp"
-        android:text="Task Body  "
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/productBody"
-        app:layout_constraintVertical_bias="1.0" />
+<!--    <TextView-->
+<!--        android:id="@+id/product_link"-->
+<!--        android:layout_width="275dp"-->
+<!--        android:layout_height="31dp"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:text="TextView"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/productBody" />-->
 
-    <ImageView
-        android:id="@+id/product_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/product_link"
-        android:layout_width="275dp"
-        android:layout_height="31dp"
-        android:layout_marginTop="20dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/productBody" />
-
-    <TextView
-        android:id="@+id/location"
-        android:layout_width="218dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="36dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/product_link" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+<!--    <TextView-->
+<!--        android:id="@+id/location"-->
+<!--        android:layout_width="218dp"-->
+<!--        android:layout_height="24dp"-->
+<!--        android:layout_marginTop="36dp"-->
+<!--        android:text="TextView"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.497"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/product_link" />-->
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->
