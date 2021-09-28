@@ -1,13 +1,19 @@
 package com.example.floklores.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,7 +21,6 @@ import android.os.FileUtils;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -26,68 +31,74 @@ import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.generated.model.Product;
 import com.amplifyframework.datastore.generated.model.Section;
-import com.example.floklores.Infrastructure.AppDatabase;
-import com.example.floklores.Infrastructure.ProductDao;
+
 import com.example.floklores.R;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-public class AddProduct extends AppCompatActivity {
+public class AddProduct extends AppCompatActivity implements OnMapReadyCallback {
 
-    private static final String TAG = "AddTaskActivity";
+    private static final String TAG = "AddProductActivity";
 
-    private ProductDao productDao;
-
-    private String sectionId = "";
+    private static final String IMAGE_URL_PREFIX = "https://folkloreb59a9082957b40879d7a28ed9441caea161824-dev.s3.amazonaws.com/public/";
+    private static String productID;
 
     private final List<Section> sections = new ArrayList<>();
 
-    static String format = "dd-MM-yyyy";
+    // UPLOAD VARIABLES
+    static String format = "dd-MM-yyyy-HH-mm-ss";
     @SuppressLint("SimpleDateFormat")
     static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
     private static String uploadedFileName = simpleDateFormat.format(new Date());
     private static String uploadedFileExtension = null;
     private static File uploadFile = null;
 
+    //    LOCATION VARIABLES
+    private GoogleMap googleMap;
+    private Location currentLocation;
+    FusedLocationProviderClient fusedLocationClient;
+    int PERMISSION_ID = 99;
+    String addressString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
 
-        setTitle("Add Task");
-        getAllTeamsDataFromAPI();
-
-        // states spinner
-//        Spinner statesList = findViewById(R.id.spinner);
-//        String[] states = new String[]{"New", "Assigned", "In progress", "Complete"};
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, states);
-//        statesList.setAdapter(adapter);
+        askForPermissionToUseLocation();
+        configureLocationServices();
+        askForLocation();
+        setTitle("Add Product");
+        getAllSectionsDataFromAPI();
 
 
-        // teams spinner
+        // SECTIONS SPINNER
         Spinner sectionsList = findViewById(R.id.spinnerSection);
-        String[] sections = new String[]{"Team A", "Team B", "Team C"};
+        String[] sections = new String[]{"Pottery", "Accessories", "Crochet", "Glass Art", "Others"};
         ArrayAdapter<String> SectionsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sections);
         sectionsList.setAdapter(SectionsAdapter);
 
-//        upload file
+        // UPLOAD FILE
+        ImageView uploadFile1 = findViewById(R.id.upload_bt);
+        uploadFile1.setOnClickListener(v1 -> getFileFromDevice());
 
-        Button uploadFile = findViewById(R.id.upload_bt);
-        uploadFile.setOnClickListener(v1 -> getFileFromDevice());
 
-
-        // Room
-        AppDatabase database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "product_List")
-                .allowMainThreadQueries().build();
-        productDao = database.productDao();
-
-        // add task button handler
+        // ADD PRODUCT BUTTON HANDLER
         findViewById(R.id.buttonAddProduct).setOnClickListener(view -> {
             String productTitle = ((EditText) findViewById(R.id.editTextProductTitle)).getText().toString();
             String productBody = ((EditText) findViewById(R.id.editTextProductBody)).getText().toString();
@@ -95,65 +106,80 @@ public class AddProduct extends AppCompatActivity {
             String productContact = ((EditText) findViewById(R.id.editTextProductContact)).getText().toString();
 
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            SharedPreferences.Editor preferenceEditor = sharedPreferences.edit();
+            preferenceEditor.putString("location", addressString);
+            preferenceEditor.apply();
             String location = sharedPreferences.getString("location", "");
-
-//            Spinner spinner = (Spinner) findViewById(R.id.spinner);
-//            String taskState = spinner.getSelectedItem().toString();
 
             Spinner sectionSpinner = (Spinner) findViewById(R.id.spinnerSection);
             String sectionName = sectionSpinner.getSelectedItem().toString();
 
 
-            // save to room
-//            Task newTask = new Task(taskTitle, taskBody, taskState);
-//            taskDao.addTask(newTask);
-
-
-
             // get the Team from Database and it will update the teamId with the new id
 
-            Log.i(TAG, "on button Listener the team id is >>>>> " + getTeamId(sectionName));
+            Log.i(TAG, "on button Listener the team id is >>>>> " + getSectionId(sectionName));
 
-            // save task to dynamoDB
-            addTaskToDynamoDB(productTitle,
+            // SAVE PRODUCT TO DynamoDB
+            addProductToDynamoDB(productTitle,
                     productBody,
                     productPrice,
                     productContact,
-                    new Section(getTeamId(sectionName), sectionName),
+                    new Section(getSectionId(sectionName), sectionName),
                     location
             );
 
+            // GO HOME AFTER ADDING
+            simpleDateFormat = new SimpleDateFormat(format);
+            uploadedFileName = simpleDateFormat.format(new Date());
+            uploadedFileExtension = null;
+            uploadFile = null;
+            Intent goToMainActivity = new Intent(AddProduct.this, MainActivity.class);
+            startActivity(goToMainActivity);
+
         });
 
-        //Go Home!
-        ImageView goHomeImage = findViewById(R.id.fromAddTaskActivityToHome);
+        //GO HOME PAGE
+        ImageView goHomeImage = findViewById(R.id.fromAddProductActivityToHome);
         goHomeImage.setOnClickListener(v -> {
-            // back button pressed
+
             Intent goHome = new Intent(AddProduct.this, MainActivity.class);
             startActivity(goHome);
         });
     }
 
-    public void addTaskToDynamoDB(String productTitle, String productBody, String productPrice,String productContact, Section section, String location) {
+    // METHODS
+
+    public void addProductToDynamoDB(String productTitle, String productBody, String productPrice, String productContact, Section section, String location) {
         Product product = Product.builder()
                 .productTitle(productTitle)
                 .productBody(productBody)
                 .productPrice(productPrice)
                 .productContact(productContact)
                 .section(section)
-                .fileName(uploadedFileName +"."+ uploadedFileExtension.split("/")[1])
+                .fileName( uploadedFileName +"."+ uploadedFileExtension.split("/")[1])
                 .location(location)
                 .build();
 
         Amplify.API.mutate(ModelMutation.create(product),
-                success -> Log.i(TAG, "Saved item: " + product.getProductTitle()),
+                success -> Log.i(TAG, "Saved item: " + product.getId()), // save this is some variable
                 error -> Log.e(TAG, "Could not save item to API", error));
+                productID = product.getId();
 
         Amplify.Storage.uploadFile(
                 uploadedFileName +"."+ uploadedFileExtension.split("/")[1],
                 uploadFile,
                 success -> {
-                    Log.i(TAG, "uploadFileToS3: succeeded " + success.getKey());
+                    Log.i(TAG, "uploadFileToS3: succeeded " + success.getKey()); // the key is the file name of the image that was uploaded
+
+                    // TODO: 2021-09-08 update the product you just uploaded to have the filename of the image uploaded
+
+//                    IMAGE_URL_PREFIX + success.getKey();
+//                    Amplify.API.mutate(ModelMutation.update(product),
+//                             response ->
+//                                    Log.i("MyAmplifyApp", "Updated profile with id: " + response.getData().getId()) ,
+//
+//                                    error -> Log.e("MyAmplifyApp", "Update failed", error)
+//                    ); // update the product with the S3 storage file name
                 },
                 error -> {
                     Log.e(TAG, "uploadFileToS3: failed " + error.toString());
@@ -198,59 +224,77 @@ public class AddProduct extends AppCompatActivity {
     }
 
 
-    private void getAllTeamsDataFromAPI() {
+    private void getAllSectionsDataFromAPI() {
         Amplify.API.query(ModelQuery.list(Section.class),
                 response -> {
                     for (Section section : response.getData()) {
                         sections.add(section);
-                        Log.i(TAG, "the team id DynamoDB are => " + section.getSectionName() + "  " + section.getId());
+                        Log.i(TAG, "the section id DynamoDB are => " + section.getSectionName() + "  " + section.getId());
                     }
                 },
-                error -> Log.e(TAG, "onCreate: Failed to get team from DynamoDB => " + error.toString())
+                error -> Log.e(TAG, "onCreate: Failed to get section from DynamoDB => " + error.toString())
         );
     }
 
-    public void getTeamFromApi(String sectionName) {
-        Amplify.API.query(ModelQuery.list(Section.class, Section.SECTION_NAME.contains(sectionName)),
-                response -> {
-                    List<Section> sections = (List<Section>) response.getData().getItems();
-                    Log.i(TAG, "get exist team id => " + sections.get(0).getId());
-                    sectionId = sections.get(0).getId();
-                },
-                error -> {
-                    Log.e(TAG, "onCreate: Failed to get Teams from DynamoDB => " + error.toString());
-                }
-        );
 
-        Log.i(TAG, "the Team from the function => " + sectionName + " - " + sectionId);
-
-    }
-
-    public void saveTeamToApi(String sectionName) {
-        Section section = Section.builder().sectionName(sectionName).build();
-
-        Amplify.API.query(ModelQuery.list(Section.class, Section.SECTION_NAME.contains(sectionName)),
-                response -> {
-                    List<Section> sections = (List<Section>) response.getData().getItems();
-
-                    if (sections.isEmpty()) {
-                        Amplify.API.mutate(ModelMutation.create(section),
-                                success -> Log.i(TAG, "Saved item: " + section.getSectionName()),
-                                error -> Log.e(TAG, "Could not save item to API", error));
-                    }
-                },
-                error -> Log.e(TAG, "onCreate: Failed to get Teams from DynamoDB => " + error.toString())
-        );
-
-    }
-
-    public String getTeamId(String sectionName) {
+    public String getSectionId(String sectionName) {
         for (Section section : sections) {
             if (section.getSectionName().equals(sectionName)) {
                 return section.getId();
             }
         }
         return "";
+    }
+
+    //    location
+
+    private void configureLocationServices() {
+        fusedLocationClient  = LocationServices.getFusedLocationProviderClient(this);
+
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void askForPermissionToUseLocation(){
+        requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 2);
+    }
+
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        this.googleMap = googleMap;
+
+    }
+    @SuppressLint("MissingPermission")
+    public void askForLocation() {
+
+        LocationRequest locationRequest;
+        LocationCallback locationCallback;
+
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(1000);
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                currentLocation = locationResult.getLastLocation();
+                Log.i("Location", currentLocation.toString());
+
+                Geocoder geocoder = new Geocoder(AddProduct.this, Locale.getDefault());
+
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(currentLocation.getLatitude(), currentLocation.getLongitude(), 10);
+                    addressString = addresses.get(0).getAddressLine(0);
+                    Log.e("Location","Your Address is " + " StringAddress" + addressString);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, getMainLooper());
     }
 
 }

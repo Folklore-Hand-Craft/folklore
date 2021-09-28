@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.amplifyframework.core.Amplify;
 import com.example.floklores.R;
@@ -23,7 +24,7 @@ public class VerificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_verification);
 
         EditText editText = findViewById(R.id.confirmationCode);
-        Button verify = findViewById(R.id.verify);
+        ImageView verify = findViewById(R.id.verify);
 
         Intent intent = getIntent();
         username = intent.getExtras().getString("username", "");

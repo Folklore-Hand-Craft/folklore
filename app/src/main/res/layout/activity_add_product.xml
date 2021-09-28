@@ -6,194 +6,184 @@
     android:layout_height="match_parent"
     tools:context=".Activities.AddProduct">
 
-    <ImageView
-        android:id="@+id/fromAddTaskActivityToHome"
-        android:layout_width="61dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
-
-    <TextView
-        android:id="@+id/textViewAddProduct"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="20dp"
-        android:text="Add Product"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintBottom_toTopOf="@+id/textViewProductTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.035" />
-
-    <TextView
-        android:id="@+id/textViewProductDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:text="@string/product_description"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toTopOf="@+id/editTextProductBody"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextProductTitle"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/buttonAddProduct"
-        android:layout_width="189dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginBottom="36dp"
-        android:text="@string/add_product"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextProductTitle"
-        android:layout_width="0dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="40dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/my_product"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toTopOf="@+id/textViewProductDescription"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewProductTitle" />
-
-    <TextView
-        android:id="@+id/textViewProductTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="30dp"
-        android:text="Product title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toTopOf="@+id/editTextProductTitle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAddProduct" />
-
-    <EditText
-        android:id="@+id/editTextProductPrice"
-        android:layout_width="0dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="40dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/price"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewProductPrice" />
-
-    <TextView
-        android:id="@+id/textViewProductPrice"
-        android:layout_width="96dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="30dp"
-        android:text="Price"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toTopOf="@+id/editTextProductPrice"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextProductBody"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:id="@+id/editTextProductContact"
-        android:layout_width="0dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="32dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/contact"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerSection"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewProductContact"
-        android:layout_width="96dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="448dp"
-        android:text="Contact"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintBottom_toTopOf="@+id/editTextProductContact"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.126"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextProductBody"
-        android:layout_width="0dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="40dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Do somthing"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewProductDescription" />
+<!--    <ImageView-->
+<!--        android:id="@+id/fromAddTaskActivityToHome"-->
+<!--        android:layout_width="61dp"-->
+<!--        android:layout_height="53dp"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        android:layout_marginEnd="20dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:srcCompat="@drawable/ic_launcher_background" />-->
 
 <!--    <TextView-->
-<!--        android:id="@+id/textViewTotalProducts"-->
+<!--        android:gravity="center"-->
+<!--        android:textColor="@color/blue"-->
+<!--        android:id="@+id/textViewAddProduct"-->
 <!--        android:layout_width="0dp"-->
-<!--        android:layout_height="43dp"-->
-<!--        android:layout_marginStart="1dp"-->
-<!--        android:layout_marginTop="28dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="40dp"-->
+<!--        android:layout_marginTop="50dp"-->
 <!--        android:layout_marginEnd="40dp"-->
-<!--        android:layout_marginBottom="30dp"-->
-<!--        android:text="0"-->
-<!--        android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        android:text="Add Product"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Display1"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/textViewProductTitle"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.035" />-->
+
+<!--    -->
+<!--    <TextView-->
+<!--        android:id="@+id/textViewProductDescription"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="40dp"-->
+<!--        android:text="@string/product_description"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/editTextProductBody"-->
 <!--        app:layout_constraintEnd_toEndOf="parent"-->
 <!--        app:layout_constraintHorizontal_bias="0.0"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/textViewTotalProductsLabel"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/buttonAddProduct" />-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/editTextProductTitle"-->
+<!--        app:layout_constraintVertical_bias="1.0" />-->
 
-<!--    <TextView-->
-<!--        android:id="@+id/textViewTotalProductsLabel"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="43dp"-->
+<!--    <Button-->
+<!--        android:id="@+id/buttonAddProduct"-->
+<!--        android:layout_width="189dp"-->
+<!--        android:layout_height="50dp"-->
 <!--        android:layout_marginStart="40dp"-->
-<!--        android:layout_marginBottom="30dp"-->
-<!--        android:text="Total Products: "-->
+<!--        android:layout_marginBottom="36dp"-->
+<!--        android:text="@string/add_product"-->
 <!--        android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
 <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintHorizontal_chainStyle="spread_inside"-->
 <!--        app:layout_constraintStart_toStartOf="parent" />-->
 
+<!--    <EditText-->
+<!--        android:id="@+id/editTextProductTitle"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="49dp"-->
+<!--        android:layout_marginStart="40dp"-->
+<!--        android:layout_marginEnd="40dp"-->
+<!--        android:layout_marginBottom="40dp"-->
+<!--        android:ems="10"-->
+<!--        android:inputType="textPersonName"-->
+<!--        android:text="@string/my_product"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/textViewProductDescription"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="1.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textViewProductTitle" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/textViewProductTitle"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="40dp"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        android:text="Product title"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/editTextProductTitle"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textViewAddProduct" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/editTextProductPrice"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="49dp"-->
+<!--        android:layout_marginStart="40dp"-->
+<!--        android:layout_marginTop="4dp"-->
+<!--        android:layout_marginEnd="40dp"-->
+<!--        android:ems="10"-->
+<!--        android:inputType="textPersonName"-->
+<!--        android:text="@string/price"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textViewProductPrice" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/textViewProductPrice"-->
+<!--        android:layout_width="96dp"-->
+<!--        android:layout_height="25dp"-->
+<!--        android:layout_marginStart="40dp"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        android:text="Price"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/editTextProductPrice"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/editTextProductBody"-->
+<!--        app:layout_constraintVertical_bias="0.0" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/editTextProductContact"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="49dp"-->
+<!--        android:layout_marginStart="40dp"-->
+<!--        android:layout_marginEnd="40dp"-->
+<!--        android:layout_marginBottom="32dp"-->
+<!--        android:ems="10"-->
+<!--        android:inputType="textPersonName"-->
+<!--        android:text="@string/contact"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/spinnerSection"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/textViewProductContact"-->
+<!--        android:layout_width="96dp"-->
+<!--        android:layout_height="25dp"-->
+<!--        android:layout_marginTop="448dp"-->
+<!--        android:text="Contact"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/editTextProductContact"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.126"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <EditText-->
+<!--        android:id="@+id/editTextProductBody"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="45dp"-->
+<!--        android:layout_marginStart="40dp"-->
+<!--        android:layout_marginEnd="40dp"-->
+<!--        android:layout_marginBottom="40dp"-->
+<!--        android:ems="10"-->
+<!--        android:inputType="textPersonName"-->
+<!--        android:text="Do somthing"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textViewProductDescription" />-->
+<!--    -->
+
+<!--    <TextView-->
+<!--        android:id="@+id/textViewSection"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="40dp"-->
+<!--        android:layout_marginTop="61dp"-->
+<!--        android:layout_marginBottom="35dp"-->
+<!--        android:text="Section"-->
+<!--        android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+
+<!--        app:layout_constraintBottom_toTopOf="@+id/buttonAddProduct"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        />-->
+
 <!--    <Spinner-->
-<!--        android:id="@+id/spinner"-->
+<!--        android:id="@+id/spinnerSection"-->
 <!--        android:layout_width="0dp"-->
 <!--        android:layout_height="54dp"-->
 <!--        android:layout_marginStart="5dp"-->
@@ -202,65 +192,123 @@
 <!--        android:layout_marginBottom="30dp"-->
 <!--        android:background="@android:drawable/btn_dropdown"-->
 <!--        android:spinnerMode="dropdown"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/textViewState"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/textViewSection"-->
 <!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.5"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/textViewState"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/textViewState"-->
-<!--        app:layout_constraintVertical_bias="0.833" />-->
+<!--        app:layout_constraintHorizontal_bias="1.0"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/textViewSection"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/textViewSection"-->
+<!--        app:layout_constraintVertical_bias="0.58" />-->
 
-<!--    <TextView-->
-<!--        android:id="@+id/textViewState"-->
+<!--    <Button-->
+<!--        android:id="@+id/upload_bt"-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="40dp"-->
-<!--        android:layout_marginTop="56dp"-->
-<!--        android:text="State"-->
-<!--        android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/spinner"-->
-<!--        app:layout_constraintHorizontal_bias="0.5"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/editTextProductBody" />-->
+<!--        android:layout_marginBottom="36dp"-->
+<!--        android:text="UPLOAD IMAGE"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.545"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/buttonAddProduct" />-->
 
     <TextView
-        android:id="@+id/textViewSection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="61dp"
-        android:layout_marginBottom="35dp"
-        android:text="Section"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-
-        app:layout_constraintBottom_toTopOf="@+id/buttonAddProduct"
-        app:layout_constraintStart_toStartOf="parent"
-        />
-
-    <Spinner
-        android:id="@+id/spinnerSection"
-        android:layout_width="0dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="30dp"
-        android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewSection"
+        android:id="@+id/textView3"
+        android:layout_width="267dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Add Product"
+        android:textColor="@color/blue"
+        android:textSize="35dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textViewSection"
-        app:layout_constraintTop_toTopOf="@+id/textViewSection"
-        app:layout_constraintVertical_bias="0.58" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fromAddProductActivityToHome" />
 
-    <Button
-        android:id="@+id/upload_bt"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
-        android:text="UPLOAD IMAGE"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        android:paddingLeft="52dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.545"
-        app:layout_constraintStart_toEndOf="@+id/buttonAddProduct" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintVertical_bias="0.392">
+
+        <EditText
+            android:id="@+id/editTextProductTitle"
+            android:layout_width="288dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/lg"
+            android:hint="Add Product Title" />
+
+        <EditText
+            android:id="@+id/editTextProductBody"
+            android:layout_width="288dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/lg"
+            android:hint="Description" />
+
+        <EditText
+            android:id="@+id/editTextProductPrice"
+            android:layout_width="288dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/lg"
+            android:hint="Price" />
+
+        <EditText
+            android:id="@+id/editTextProductContact"
+            android:layout_width="288dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="35dp"
+            android:background="@drawable/lg"
+            android:hint="Contact" />
+
+        <Spinner
+            android:id="@+id/spinnerSection"
+            android:layout_width="288dp"
+            android:layout_height="41dp"
+            android:layout_marginTop="35dp"
+            android:autofillHints="Section"
+            android:background="@drawable/lg" />
+
+        <ImageView
+            android:id="@+id/upload_bt"
+            android:layout_width="71dp"
+            android:layout_height="61dp"
+            android:layout_marginLeft="220dp"
+            android:layout_marginTop="35dp"
+            android:src="@drawable/ic_upload" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonAddProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ADD"
+        android:background="@drawable/botton_shape"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <ImageView
+        android:id="@+id/fromAddProductActivityToHome"
+        android:layout_width="61dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.954"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_homepage" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
